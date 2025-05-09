@@ -1,0 +1,55 @@
+notes for Important feature graph
+
+1. **Feature Importance**:
+    - The Random Forest model assigns an importance score to each feature based on how much it contributes to reducing the impurity (e.g., Gini impurity) in the decision trees.
+    - Features with higher importance scores are more influential in making predictions.
+
+2. **Graph Details**:
+    - **Y-axis**: Lists the top 20 features (from the dataset) sorted by their importance scores.
+    - **X-axis**: Represents the importance scores of these features.
+    - **Bars**: The length of each bar corresponds to the importance score of the respective feature.
+
+3. **Purpose**:
+    - This graph helps identify which features are most critical for the model's decision-making process.
+    - It can guide feature selection, model interpretation, and understanding of the dataset.
+
+4. **Insights**:
+    - Features with the longest bars are the most important.
+    - If some features have very low importance, they might be candidates for removal to simplify the model.
+
+This visualization is particularly useful for understanding the inner workings of the Random Forest model and for communicating which features are driving predictions.
+
+📊 Top Features — Interpretation
+Feature	Meaning (inferred from Android behavior)
+getSubscriberId	Attempts to access SIM info (IMEI, etc.) → privacy red flag
+fchmod, stat64, pread64, mmap2	Low-level file system manipulation
+getDeviceId	Reads device identity — often misused by malware
+getInstallerPackageName	Could be used to detect where app was installed from (e.g., Play Store or sideloaded)
+ACCESS_PERSONAL_INFO___	Likely a composite behavioral indicator — very valuable
+CREATE_FOLDER_____, mkdir, munmap	Directories and memory manipulation, suspicious for certain malware
+getApplicationInfo, getDisplayInfo	Can be used for evasion (checking environment)
+access, read, lstat64	Filesystem reads (what malware often does before attack)
+
+These confirm your model is focusing on system behaviors that align with known malware tactics.
+
+
+mode dnn
+
+
+1. **Model Accuracy Over Epochs**:
+    - The x-axis represents the number of epochs (iterations over the entire training dataset).
+    - The y-axis represents the accuracy.
+    - Two lines are plotted:
+      - **Train Accuracy**: Shows how well the model performs on the training data.
+      - **Validation Accuracy**: Shows how well the model generalizes to unseen data (validation set).
+    - A gap between the two lines may indicate overfitting if the training accuracy is much higher than the validation accuracy.
+
+2. **Model Loss Over Epochs**:
+    - The x-axis represents the number of epochs.
+    - The y-axis represents the loss (categorical cross-entropy in this case).
+    - Two lines are plotted:
+      - **Train Loss**: Indicates how well the model is minimizing the error on the training data.
+      - **Validation Loss**: Indicates how well the model is minimizing the error on the validation data.
+    - A decreasing loss indicates that the model is learning, while an increasing validation loss may indicate overfitting.
+
+These graphs help evaluate the model's learning process and identify issues like underfitting or overfitting.
