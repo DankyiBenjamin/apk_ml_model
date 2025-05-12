@@ -53,3 +53,6 @@ mode dnn
     - A decreasing loss indicates that the model is learning, while an increasing validation loss may indicate overfitting.
 
 These graphs help evaluate the model's learning process and identify issues like underfitting or overfitting.
+
+
+ weill try to store the extracted features as a csv and pass it to the model later 

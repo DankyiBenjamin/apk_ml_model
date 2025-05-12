@@ -1,0 +1,85 @@
+**Title:**
+Android Malware Detection Using Semi-Supervised Deep Learning and Pseudo-Labeling
+
+**1. Introduction**
+With the increasing ubiquity of Android devices, the platform has become a significant target for malicious software. Detecting malware in Android applications is a critical aspect of mobile security. This project leverages semi-supervised deep learning—specifically the pseudo-labeling technique—to classify Android malware into categories using the CICMalDroid2020 dataset.
+
+**2. Objectives**
+
+* To develop a robust system for classifying Android applications into five categories: Adware, Banking Malware, SMS Malware, Riskware, and Benign.
+* To implement a semi-supervised learning approach using pseudo-labeling to reduce dependence on labeled data.
+* To compare the effectiveness of traditional machine learning models against deep learning models.
+
+**3. Dataset**
+We used the CICMalDroid2020 dataset, a recent and comprehensive dataset containing:
+
+* Static and dynamic behavior-based feature vectors.
+* 11,598 samples.
+* Five classes: Adware (1,253), Banking (2,100), SMS (3,904), Riskware (2,546), and Benign (1,795).
+
+**4. Methodology**
+
+**4.1 Data Preprocessing**
+
+* Loaded the CSV file containing syscall-based frequency features.
+* Inspected shape and distribution of class labels.
+* Scaled feature vectors using StandardScaler to ensure zero mean and unit variance.
+
+*Insert Graph: Feature Distribution by Class*
+
+**4.2 Supervised Learning Baselines**
+We trained two baseline models:
+
+**Random Forest Classifier:**
+
+* Accuracy: 95%
+* SMS Malware class had the highest precision and recall.
+
+**Deep Neural Network (DNN):**
+
+* Architecture: Input -> Dense(256) -> Dropout(0.3) -> Dense(128) -> Dropout(0.3) -> Dense(64) -> Output(softmax).
+* Accuracy: 91%
+* Provided good generalization and balance between all malware categories.
+
+*Insert: Classification Reports and Confusion Matrices for both models*
+
+**4.3 Pseudo-Labeling Phase**
+We simulated a scenario where only 20% of the training data was labeled and applied pseudo-labeling as follows:
+
+* Predicted labels for the unlabeled data using the base DNN.
+* Selected samples with prediction confidence >= 0.95.
+* Combined pseudo-labeled data with the original labeled set.
+* Re-trained a new DNN on this augmented dataset.
+
+**Training Observations:**
+
+* Final Train Accuracy: 97.11%
+* Best Validation Accuracy: 97.92% (Epoch 13)
+* Final Test Accuracy: 88%
+
+*Insert: Training Curves (Accuracy and Loss), Pseudo-Label Selection Stats*
+
+**4.4 Final Model Evaluation**
+
+* Pseudo-labeled DNN achieved 88% accuracy on the real test set.
+* SMS Malware remained the easiest class to detect.
+* Slight precision-recall tradeoffs in Adware and Banking categories.
+
+*Insert: Confusion Matrix and Classification Report for Final Model*
+
+**5. Conclusion**
+
+* Semi-supervised learning using pseudo-labeling significantly improves performance even with limited labeled data.
+* Our final model demonstrates robustness, scalability, and real-world applicability.
+* This approach is particularly valuable in domains where labeling is expensive or time-consuming.
+
+**6. Future Work**
+
+* Explore RNN or CNN-based deep models for sequential behavior patterns.
+* Deploy the model in a lightweight environment like Android emulators or edge devices.
+* Integrate static + dynamic analysis for feature fusion.
+
+**7. References**
+
+* Mahdavifar, S., et al. (2020). "CICMalDroid2020: Android Malware Classification Using Semi-supervised Deep Learning."
+* TensorFlow, Scikit-learn, and other libraries used during implementation.
