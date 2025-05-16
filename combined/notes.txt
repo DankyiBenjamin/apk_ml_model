@@ -1,0 +1,22 @@
+I combined the two datasets because each was too limited in size on its own. Combining them gave me a total of 18,825 rows and 136 features (columns).
+
+🔍 How Did I Select the Necessary Features?
+To reduce dimensionality and improve model efficiency, I applied two feature selection methods:
+
+Mutual Information (MI):
+
+This method measures the dependency between each feature and the target label (malware or benign).
+
+It captures both linear and non-linear relationships independently.
+
+I selected the top 100 features based on MI scores.
+
+Random Forest Feature Importance:
+
+Random Forest evaluates features based on their contribution to reducing classification error (Gini impurity).
+
+It considers feature interactions and contextual importance within the ensemble.
+
+I selected the top 100 features from the Random Forest as well.
+
+After selecting features with both methods, I took the union of the two sets, ensuring that I retained high-signal features from both independent and interaction-based perspectives. This resulted in a refined and compact feature set for model training.
