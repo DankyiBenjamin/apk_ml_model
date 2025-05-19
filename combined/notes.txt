@@ -20,3 +20,57 @@ It considers feature interactions and contextual importance within the ensemble.
 I selected the top 100 features from the Random Forest as well.
 
 After selecting features with both methods, I took the union of the two sets, ensuring that I retained high-signal features from both independent and interaction-based perspectives. This resulted in a refined and compact feature set for model training.
+
+DroidFusion-Style Model Training and Results
+
+🎯 Fusion Strategy
+To combine predictions from multiple base classifiers, I implemented two fusion strategies inspired by the DroidFusion framework:
+
+Rank-Based Fusion (Initial Attempt):
+
+Averaged the rank of each classifier’s predicted probabilities.
+
+Used the median rank as a threshold to predict malware (class 1).
+
+This method failed to predict any malware instances — resulting in 0 precision, recall, and F1-score.
+
+Root cause: the ranking-based threshold was too conservative.
+
+Soft Voting (Successful Method):
+
+Averaged the predicted probabilities (instead of ranks) from all classifiers.
+
+Classified as malware if the average probability > 0.5.
+
+This method delivered excellent results.
+
+📊 Final Results (Soft Voting)
+Metric	Value
+Precision	0.9795
+Recall (TPR)	0.9838
+F1-score	0.9817
+
+Confusion Matrix:
+
+lua
+Copy
+Edit
+[[2375   28]  → Benign: 28 false positives
+ [  22 1340]] → Malware: 22 false negatives
+✅ Why Soft Voting Outperformed Rank Fusion
+Soft voting leverages the actual confidence levels (probabilities) from classifiers.
+
+It provides a more nuanced and calibrated decision compared to arbitrary ranks.
+
+It avoids thresholding errors caused by skewed or overlapping ranks.
+
+🔁 Comparison: Soft Voting vs. AAB Fusion
+I implemented two fusion strategies:
+
+Soft Voting: Average of predicted probabilities across base classifiers.
+
+AAB (Average Accuracy Based): Weighted average using each model's validation accuracy.
+
+Despite the theoretical advantage of AAB (favoring more accurate models), both methods yielded identical evaluation metrics and confusion matrix. This suggests that the base classifiers were similarly effective, and the predictions were highly correlated.
+
+Therefore, both fusion strategies are viable, but AAB provides a more principled approach when model performance varies significantly.
